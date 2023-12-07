@@ -1,0 +1,29 @@
+version: '3.8'
+services:
+  spring_security:
+    build:
+      context: ./
+    ports:
+      - "8080:8080"
+      - "10400:10400"
+    depends_on:
+      - spring_security_postgres
+    env_file:
+      - .env
+
+  spring_security_postgres:
+    image: postgres
+    container_name: spring_security_postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - spring_security_postgres_data:/var/lib/postgresql/data
+
+networks:
+  server-network:
+    driver: bridge
+
+volumes:
+  spring_security_postgres_data:
